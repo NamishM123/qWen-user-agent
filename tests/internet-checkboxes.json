@@ -1,0 +1,9 @@
+{
+  "id": "internet-checkboxes",
+  "url": "https://the-internet.herokuapp.com/checkboxes",
+  "task": "Ensure both checkboxes are checked. Use the synthetic names from Elements (e.g. checkbox 1). Stop when both show checked=true.",
+  "expect": {
+    "minCheckedCheckboxes": 2
+  },
+  "maxSteps": 8
+}

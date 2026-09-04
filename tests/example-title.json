@@ -1,0 +1,9 @@
+{
+  "id": "example-title",
+  "url": "https://example.com",
+  "task": "Confirm that the page title contains 'Example Domain'. Do not click anything if already true; emit done.",
+  "expect": {
+    "titleContains": "Example Domain"
+  },
+  "maxSteps": 4
+}

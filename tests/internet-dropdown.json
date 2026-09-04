@@ -1,0 +1,9 @@
+{
+  "id": "internet-dropdown",
+  "url": "https://the-internet.herokuapp.com/dropdown",
+  "task": "Using select_option, choose Option 2 from the dropdown. Stop when the combobox value is Option 2.",
+  "expect": {
+    "comboboxValueIncludes": "Option 2"
+  },
+  "maxSteps": 6
+}

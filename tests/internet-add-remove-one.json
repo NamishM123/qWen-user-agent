@@ -1,0 +1,9 @@
+{
+  "id": "internet-add-remove-one",
+  "url": "https://the-internet.herokuapp.com/add_remove_elements/",
+  "task": "Click 'Add Element' once. Stop when at least one Delete button is visible. Do not click Delete.",
+  "expect": {
+    "minDeleteButtons": 1
+  },
+  "maxSteps": 6
+}

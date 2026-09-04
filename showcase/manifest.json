@@ -1,0 +1,63 @@
+{
+  "title": "qWen User Agent — example runs",
+  "description": "Sanitized gallery of successful local runs (Phase 4 showcase).",
+  "generated_at": "2026-09-04T21:00:00.000Z",
+  "items": [
+    {
+      "id": "example-click",
+      "title": "Click Learn more on example.com",
+      "url": "https://example.com",
+      "task": "Click the More information or Learn more link.",
+      "outcome": "success",
+      "terminalReason": "Clicked the 'Learn more' link and left the starting page.",
+      "finalUrl": "https://www.iana.org/help/example-domains",
+      "finalTitle": "Example Domains",
+      "stepCount": 2,
+      "prompt_version": "v1.1",
+      "image": "/showcase/example-click.png",
+      "logSnippet": "step 1: click role=link name=\"Learn more\" → navigated to iana.org"
+    },
+    {
+      "id": "login-secure",
+      "title": "Login to the-internet secure area",
+      "url": "https://the-internet.herokuapp.com/login",
+      "task": "Log in with Username 'tomsmith' and Password 'SuperSecretPassword!'. Stop when you reach the secure area.",
+      "outcome": "success",
+      "terminalReason": "URL contains /secure",
+      "finalUrl": "https://the-internet.herokuapp.com/secure",
+      "finalTitle": "The Internet",
+      "stepCount": 4,
+      "prompt_version": "v1.1",
+      "image": "/showcase/login-secure.png",
+      "logSnippet": "type username → type password submit → /secure → done"
+    },
+    {
+      "id": "dropdown",
+      "title": "Select Option 2 from dropdown",
+      "url": "https://the-internet.herokuapp.com/dropdown",
+      "task": "Use select_option on combobox 1 to choose Option 2.",
+      "outcome": "success",
+      "terminalReason": "Combobox value is already 'Option 2'",
+      "finalUrl": "https://the-internet.herokuapp.com/dropdown",
+      "finalTitle": "The Internet",
+      "stepCount": 2,
+      "prompt_version": "v1.1",
+      "image": "/showcase/dropdown.png",
+      "logSnippet": "select_option value=Option 2 → done"
+    },
+    {
+      "id": "checkboxes",
+      "title": "Check both checkboxes",
+      "url": "https://the-internet.herokuapp.com/checkboxes",
+      "task": "Ensure both checkboxes are checked.",
+      "outcome": "success",
+      "terminalReason": "Both checkboxes show checked=true",
+      "finalUrl": "https://the-internet.herokuapp.com/checkboxes",
+      "finalTitle": "The Internet",
+      "stepCount": 2,
+      "prompt_version": "v1.1",
+      "image": "/showcase/checkboxes.png",
+      "logSnippet": "click unchecked boxes → done-check achieved"
+    }
+  ]
+}

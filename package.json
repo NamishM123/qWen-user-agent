@@ -1,18 +1,32 @@
 {
   "name": "qwen-user-agent",
-  "version": "0.0.1",
+  "version": "0.4.0",
   "private": true,
-  "description": "Agentic browser driver powered by Qwen (Phase 0: prove the loop closes)",
+  "description": "Phase 4: concurrency, guardrails, prompt A/B, showcase",
   "type": "module",
   "scripts": {
-    "start": "node src/agent.js",
-    "postinstall": "playwright install chromium"
+    "start": "node --env-file=.env src/agent.js",
+    "runner": "node --env-file=.env src/runner.js",
+    "enqueue": "node --env-file=.env src/runner.js enqueue",
+    "process": "node --env-file=.env src/runner.js process",
+    "eval": "node --env-file=.env src/eval.js",
+    "postinstall": "playwright install chromium",
+    "worker": "node --env-file=.env src/worker.js",
+    "web": "npm --prefix web run dev",
+    "web:install": "npm --prefix web install",
+    "prompts:compare": "node --env-file=.env src/prompts-compare.js",
+    "worker:pool": "WORKER_CONCURRENCY=2 node --env-file=.env src/worker.js"
   },
   "dependencies": {
     "openai": "^4.77.0",
-    "playwright": "^1.49.0"
+    "playwright": "^1.49.0",
+    "sql.js": "^1.12.0",
+    "better-sqlite3": "^11.7.0"
   },
   "engines": {
     "node": ">=20"
+  },
+  "optionalDependencies": {
+    "pg": "^8.13.0"
   }
 }

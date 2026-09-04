@@ -1,0 +1,10 @@
+{
+  "id": "internet-login",
+  "url": "https://the-internet.herokuapp.com/login",
+  "task": "Log in with Username 'tomsmith' and Password 'SuperSecretPassword!'. Stop when you reach the secure area.",
+  "expect": {
+    "urlContains": "/secure",
+    "nodeNameIncludes": "Logout"
+  },
+  "maxSteps": 10
+}

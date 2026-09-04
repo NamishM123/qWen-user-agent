@@ -1,0 +1,10 @@
+{
+  "id": "wiki-ada",
+  "url": "https://en.wikipedia.org/wiki/Ada_Lovelace",
+  "task": "Confirm you are on the Ada Lovelace Wikipedia article (title contains Ada Lovelace). Emit done without navigating away.",
+  "expect": {
+    "titleContains": "Ada Lovelace",
+    "urlContains": "Ada_Lovelace"
+  },
+  "maxSteps": 4
+}

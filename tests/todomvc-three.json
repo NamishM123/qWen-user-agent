@@ -1,0 +1,9 @@
+{
+  "id": "todomvc-three",
+  "url": "https://demo.playwright.dev/todomvc/",
+  "task": "Add three todos: buy milk, walk the dog, write report. Use submit:true for each. Stop when three items exist.",
+  "expect": {
+    "minListItems": 3
+  },
+  "maxSteps": 12
+}

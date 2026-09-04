@@ -1,0 +1,9 @@
+{
+  "id": "internet-hovers",
+  "url": "https://the-internet.herokuapp.com/hovers",
+  "task": "Hover over the first user avatar/image (use hover action on the first figure link or image-like control). Then emit done. If only links like 'View profile' appear after hover, that is success \u2014 emit done.",
+  "expect": {
+    "urlContains": "/hovers"
+  },
+  "maxSteps": 6
+}

@@ -1,0 +1,9 @@
+{
+  "id": "internet-checkboxes-untouched-url",
+  "url": "https://the-internet.herokuapp.com/checkboxes",
+  "task": "Confirm you are on the checkboxes page (URL contains /checkboxes). Emit done without changing state if already there.",
+  "expect": {
+    "urlContains": "/checkboxes"
+  },
+  "maxSteps": 4
+}

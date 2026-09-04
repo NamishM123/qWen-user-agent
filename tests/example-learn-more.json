@@ -1,0 +1,9 @@
+{
+  "id": "example-learn-more",
+  "url": "https://example.com",
+  "task": "Click the 'More information...' link (or 'Learn more' if that is what is shown). Stop when you have left example.com.",
+  "expect": {
+    "urlContains": "iana.org"
+  },
+  "maxSteps": 8
+}

@@ -1,0 +1,24 @@
+{
+  "tasks": [
+    "example-learn-more",
+    "example-title",
+    "todomvc-three",
+    "todomvc-one",
+    "internet-login",
+    "internet-checkboxes",
+    "internet-dropdown",
+    "internet-add-remove-two",
+    "internet-add-remove-one",
+    "httpbin-form",
+    "wiki-ada",
+    "wiki-turing",
+    "internet-inputs",
+    "internet-forgot-password",
+    "internet-status-200",
+    "internet-status-404",
+    "internet-hovers",
+    "internet-checkboxes-untouched-url",
+    "internet-login-page-confirm",
+    "example-no-nav"
+  ]
+}

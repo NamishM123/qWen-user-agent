@@ -1,0 +1,11 @@
+{
+  "id": "example-no-nav",
+  "url": "https://example.com/",
+  "task": "Confirm URL is example.com and title contains Example Domain. Do not click More information. Emit done.",
+  "expect": {
+    "urlContains": "example.com",
+    "titleContains": "Example Domain",
+    "urlNotContains": "iana.org"
+  },
+  "maxSteps": 4
+}

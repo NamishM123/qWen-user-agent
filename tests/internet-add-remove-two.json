@@ -1,0 +1,9 @@
+{
+  "id": "internet-add-remove-two",
+  "url": "https://the-internet.herokuapp.com/add_remove_elements/",
+  "task": "Click 'Add Element' twice so that two Delete buttons appear. Do NOT click Delete. Emit done when two Delete buttons are listed.",
+  "expect": {
+    "minDeleteButtons": 2
+  },
+  "maxSteps": 8
+}

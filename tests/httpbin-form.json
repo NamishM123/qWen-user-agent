@@ -1,0 +1,9 @@
+{
+  "id": "httpbin-form",
+  "url": "https://httpbin.org/forms/post",
+  "task": "Fill the customer name textbox with 'Ada Lovelace' (submit:false), then submit the form (click the submit/order button or equivalent). Stop when the URL contains /post.",
+  "expect": {
+    "urlContains": "/post"
+  },
+  "maxSteps": 12
+}

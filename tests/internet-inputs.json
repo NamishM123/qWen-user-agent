@@ -1,0 +1,9 @@
+{
+  "id": "internet-inputs",
+  "url": "https://the-internet.herokuapp.com/inputs",
+  "task": "Type 42 into the number input/textbox shown on the page (submit:false). Emit done after the value is set.",
+  "expect": {
+    "anyNodeTextIncludes": "42"
+  },
+  "maxSteps": 6
+}

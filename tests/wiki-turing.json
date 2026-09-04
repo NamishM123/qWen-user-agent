@@ -1,0 +1,9 @@
+{
+  "id": "wiki-turing",
+  "url": "https://en.wikipedia.org/wiki/Alan_Turing",
+  "task": "Confirm the page title contains 'Alan Turing'. Emit done immediately if so.",
+  "expect": {
+    "titleContains": "Alan Turing"
+  },
+  "maxSteps": 4
+}

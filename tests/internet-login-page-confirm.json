@@ -1,0 +1,10 @@
+{
+  "id": "internet-login-page-confirm",
+  "url": "https://the-internet.herokuapp.com/login",
+  "task": "Confirm the login page is showing Username and Password fields. Emit done without logging in.",
+  "expect": {
+    "urlContains": "/login",
+    "nodeNameIncludes": "Username"
+  },
+  "maxSteps": 4
+}

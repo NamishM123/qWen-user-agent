@@ -1,0 +1,9 @@
+{
+  "id": "internet-status-200",
+  "url": "https://the-internet.herokuapp.com/status_codes",
+  "task": "Click the link named '200'. Stop when the URL contains status_codes/200.",
+  "expect": {
+    "urlContains": "status_codes/200"
+  },
+  "maxSteps": 6
+}

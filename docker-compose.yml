@@ -1,0 +1,44 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: web
+    ports:
+      - 3000:3000
+    environment:
+      AUTH_SECRET: ${AUTH_SECRET:-dev-insecure-change-me}
+      AUTH_DEV_USER: ${AUTH_DEV_USER:-dev@local}
+      AUTH_URL: "http://localhost:3000"
+      DATABASE_URL: ${DATABASE_URL:-}
+    volumes:
+      - ./data:/app/data
+      - ./runs:/app/runs
+      - ./showcase:/app/showcase:ro
+    depends_on:
+      - worker
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: worker
+    environment:
+      LLM_BASE_URL: ${LLM_BASE_URL:-http://host.docker.internal:11434/v1}
+      LLM_API_KEY: ${LLM_API_KEY:-ollama}
+      LLM_MODEL: ${LLM_MODEL:-qwen2.5:7b}
+      LLM_VISION_MODEL: ${LLM_VISION_MODEL:-qwen2.5vl:7b}
+      HEADLESS: 1
+      WORKER_HEADLESS: 1
+      WORKER_CONCURRENCY: ${WORKER_CONCURRENCY:-2}
+      WORKER_POLL_MS: ${WORKER_POLL_MS:-1500}
+      MAX_STEPS: ${MAX_STEPS:-25}
+      MAX_LATENCY_MS: ${MAX_LATENCY_MS:-0}
+      MAX_TOKENS_PER_TASK: ${MAX_TOKENS_PER_TASK:-0}
+      MAX_COST_USD: ${MAX_COST_USD:-0}
+      RATE_LIMIT_TASKS_PER_HOUR: ${RATE_LIMIT_TASKS_PER_HOUR:-30}
+      PROMPT_VERSION: ${PROMPT_VERSION:-v1.1}
+      DATABASE_URL: ${DATABASE_URL:-}
+    volumes:
+      - ./data:/app/data
+      - ./runs:/app/runs
+      - ./prompts:/app/prompts:ro

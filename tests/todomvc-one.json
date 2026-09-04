@@ -1,0 +1,9 @@
+{
+  "id": "todomvc-one",
+  "url": "https://demo.playwright.dev/todomvc/",
+  "task": "Add a single todo named 'phase2 eval' with submit:true, then mark the task done.",
+  "expect": {
+    "minListItems": 1
+  },
+  "maxSteps": 8
+}
