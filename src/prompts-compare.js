@@ -63,23 +63,21 @@ function group(rows) {
 async function main() {
   const runsDir = join(process.cwd(), "runs");
   const rows = [...(await walkFinals(runsDir)), ...(await loadEvalSummaries(join(runsDir, "eval")))];
-  console.log("prompt_version comparison — " + rows.length + " samples
-");
+  console.log("prompt_version comparison — " + rows.length + " samples");
   if (!rows.length) {
     console.log("No runs with final.json found.");
     return;
   }
   const g = group(rows);
   const versions = Object.keys(g).sort();
-  console.log("version	pass	fail	total	rate");
+  console.log("version\tpass\tfail\ttotal\trate");
   for (const v of versions) {
     const s = g[v];
     const rate = s.total ? ((s.pass / s.total) * 100).toFixed(1) : "0.0";
-    console.log(v + "	" + s.pass + "	" + s.fail + "	" + s.total + "	" + rate + "%");
+    console.log(v + "\t" + s.pass + "\t" + s.fail + "\t" + s.total + "\t" + rate + "%");
   }
   if (versions.length < 2) {
-    console.log("
-Tip: set PROMPT_VERSION=v2 and re-run eval to compare.");
+    console.log("Tip: set PROMPT_VERSION=v2 and re-run eval to compare.");
   }
 }
 

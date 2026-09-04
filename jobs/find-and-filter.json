@@ -1,0 +1,11 @@
+{
+  "id": "find-and-filter",
+  "name": "Find and filter",
+  "description": "Apply a simple filter or sort if available.",
+  "steps": [
+    {
+      "goal": "Locate filters, sort controls, or category chips. Apply one simple filter or sort (e.g. price, newest, or a category). Stop with done when the page reflects the change (URL params, selected chip, or updated list heading). If no filters exist, stop with stuck explaining that.",
+      "url": null
+    }
+  ]
+}

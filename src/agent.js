@@ -1,3 +1,4 @@
+import { existsSync } from 'node:fs';
 import { mkdir, writeFile, appendFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
@@ -13,6 +14,7 @@ import {
   getPromptVersion,
 } from './qwen.js';
 import { maxSteps as envMaxSteps, checkBudgets, guardrailSnapshot, estimateCostUsd } from './guardrails.js';
+import { augmentTaskWithPersona, formatPersonaSystemAddendum } from './persona.js';
 
 const MAX_STEPS = envMaxSteps();
 const STUCK_WINDOW = 3;
@@ -30,14 +32,24 @@ function sameState(a, b) {
 function runTimestamp() {
   const d = new Date();
   const pad = (n) => String(n).padStart(2, '0');
+  const ms = String(d.getMilliseconds()).padStart(3, '0');
   return (
     `${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())}` +
-    `T${pad(d.getHours())}${pad(d.getMinutes())}${pad(d.getSeconds())}`
+    `T${pad(d.getHours())}${pad(d.getMinutes())}${pad(d.getSeconds())}${ms}`
   );
 }
 
-async function createRunDir(url, task) {
-  const root = join(process.cwd(), 'runs', runTimestamp());
+async function createRunDir(url, task, { runDirOverride } = {}) {
+  let root = runDirOverride;
+  if (!root) {
+    let stamp = runTimestamp();
+    root = join(process.cwd(), 'runs', stamp);
+    let n = 0;
+    while (existsSync(root) && n < 20) {
+      n += 1;
+      root = join(process.cwd(), 'runs', `${stamp}-${n}`);
+    }
+  }
   await mkdir(join(root, 'snapshots'), { recursive: true });
   await mkdir(join(root, 'screenshots'), { recursive: true });
   await writeFile(join(root, 'task.txt'), `URL: ${url}\nTask: ${task}\n`, 'utf8');
@@ -89,10 +101,19 @@ function addUsage(cost, usage) {
 }
 
 /**
- * Run the agent loop. Importable for runner + eval + worker.
- * @param {{ url: string, task: string, maxSteps?: number, headless?: boolean, onProgress?: (ev: object) => void }} opts
+ * Run the agent loop. Importable for runner + eval + worker + compare.
+ * @param {{ url: string, task: string, maxSteps?: number, headless?: boolean, onProgress?: (ev: object) => void, persona?: object, compareMeta?: object, runDir?: string }} opts
  */
-export async function run({ url, task, maxSteps = MAX_STEPS, headless, onProgress } = {}) {
+export async function run({
+  url,
+  task,
+  maxSteps = MAX_STEPS,
+  headless,
+  onProgress,
+  persona = null,
+  compareMeta = null,
+  runDir: runDirOverride = null,
+} = {}) {
   if (!url || !task) throw new Error('run({ url, task }) requires url and task');
 
   const emit = (ev) => {
@@ -111,20 +132,26 @@ export async function run({ url, task, maxSteps = MAX_STEPS, headless, onProgres
       : process.env.HEADLESS === '1' || process.env.HEADLESS === 'true';
 
   const promptVersion = getPromptVersion();
-  const runDir = await createRunDir(url, task);
+  const personaAddendum = persona ? formatPersonaSystemAddendum(persona) : null;
+  const effectiveTask = augmentTaskWithPersona(task, persona);
+  const runDir = await createRunDir(url, effectiveTask, { runDirOverride });
   console.log(`run dir: ${runDir}`);
   console.log(`browser headless=${isHeadless}`);
   console.log(`model=${getModelName()} structured=${structuredOutputMode()} prompt_version=${promptVersion}`);
+  if (persona) console.log(`persona: ${persona.id} (${persona.name})`);
+  if (compareMeta) console.log(`compare: session=${compareMeta.session_id} app=${compareMeta.app_id} job=${compareMeta.job_id}`);
   console.log('guardrails:', guardrailSnapshot());
   emit({
     type: 'start',
     url,
-    task,
+    task: effectiveTask,
     runDir,
     headless: isHeadless,
     model: getModelName(),
     prompt_version: promptVersion,
     guardrails: guardrailSnapshot(),
+    persona_id: persona?.id ?? null,
+    compareMeta,
   });
 
   const hasVision = await visionModelAvailable();
@@ -177,17 +204,18 @@ export async function run({ url, task, maxSteps = MAX_STEPS, headless, onProgres
           lastScreenshotPath = shotPath;
           console.log(`vision recovery: screenshot ${shotPath}`);
           const visionResult = await nextActionWithVision({
-            task,
+            task: effectiveTask,
             snapshot: snap,
             history,
             screenshotPath: shotPath,
+            personaAddendum,
           });
           action = visionResult.action;
           stepUsage = visionResult.usage;
           usedVisionThisStep = true;
           visionUsed = true;
         } else {
-          const result = await nextAction({ task, snapshot: snap, history });
+          const result = await nextAction({ task: effectiveTask, snapshot: snap, history, personaAddendum });
           action = result.action;
           stepUsage = result.usage;
         }
@@ -200,7 +228,7 @@ export async function run({ url, task, maxSteps = MAX_STEPS, headless, onProgres
         if (wantVision && !action) {
           try {
             console.warn('falling back to text model after vision error');
-            const result = await nextAction({ task, snapshot: snap, history });
+            const result = await nextAction({ task: effectiveTask, snapshot: snap, history, personaAddendum });
             action = result.action;
             stepUsage = result.usage;
           } catch (err2) {
@@ -223,10 +251,11 @@ export async function run({ url, task, maxSteps = MAX_STEPS, headless, onProgres
           lastScreenshotPath = shotPath;
           console.log(`vision recovery after stuck: ${shotPath}`);
           const visionResult = await nextActionWithVision({
-            task,
+            task: effectiveTask,
             snapshot: snap,
             history: [...history, action],
             screenshotPath: shotPath,
+            personaAddendum,
           });
           action = visionResult.action;
           stepUsage = visionResult.usage;
@@ -342,7 +371,7 @@ export async function run({ url, task, maxSteps = MAX_STEPS, headless, onProgres
 
     console.log('\n=== done-check ===');
     const doneCheck = await checkDone({
-      task,
+      task: effectiveTask,
       snapshot: finalSnap,
       history,
       terminalReason,
@@ -375,6 +404,12 @@ export async function run({ url, task, maxSteps = MAX_STEPS, headless, onProgres
       model: getModelName(),
       prompt_version: promptVersion,
       guardrails: guardrailSnapshot(),
+      persona_id: persona?.id ?? null,
+      persona_name: persona?.name ?? null,
+      job_id: compareMeta?.job_id ?? null,
+      app_id: compareMeta?.app_id ?? null,
+      session_id: compareMeta?.session_id ?? null,
+      task_raw: task,
     };
     await writeFile(join(runDir, 'final.json'), JSON.stringify(final, null, 2), 'utf8');
 

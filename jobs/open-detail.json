@@ -1,0 +1,11 @@
+{
+  "id": "open-detail",
+  "name": "Open a detail page",
+  "description": "Open one listing or content detail and note price/key facts.",
+  "steps": [
+    {
+      "goal": "Find any listing card, article link, or result row and open its detail view. On the detail page, note rent/price or a key fact if visible. Do not fill forms that require personal data beyond optional filters. Stop with done once a detail URL or detail heading is visible.",
+      "url": null
+    }
+  ]
+}
