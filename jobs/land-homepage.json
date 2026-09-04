@@ -1,0 +1,11 @@
+{
+  "id": "land-homepage",
+  "name": "Land on homepage",
+  "description": "Confirm the app loads and identify the primary value prop / next action.",
+  "steps": [
+    {
+      "goal": "Look at the homepage. Note the main headline or product purpose in one sentence, identify the primary call-to-action (Sign up, Search, Get started, etc.), and stop with done once you can cite that CTA by its visible label.",
+      "url": null
+    }
+  ]
+}

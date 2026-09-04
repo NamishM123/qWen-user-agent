@@ -1,0 +1,12 @@
+{
+  "id": "demo-smoke",
+  "name": "Public smoke compare (tiny sites)",
+  "persona": "college-student",
+  "maxSteps": 6,
+  "apps": [
+    { "id": "example", "name": "Example Domain", "url": "https://example.com" },
+    { "id": "cern", "name": "CERN first website", "url": "https://info.cern.ch" },
+    { "id": "example-org", "name": "Example.org", "url": "https://example.org" }
+  ],
+  "jobs": ["land-homepage"]
+}

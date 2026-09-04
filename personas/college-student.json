@@ -1,0 +1,23 @@
+{
+  "id": "college-student",
+  "name": "Maya Chen",
+  "demographic": "19-year-old undergrad living in a dorm, commuting between campus and part-time cafe shifts. First apartment search next semester.",
+  "goals": [
+    "Find affordable options near campus or transit",
+    "Compare listings quickly on phone between classes",
+    "Avoid scams and sketchy deposits"
+  ],
+  "pain_points": [
+    "Overwhelming filters and jargon",
+    "Slow pages on mobile data",
+    "Hidden fees that break a student budget"
+  ],
+  "patience": "low",
+  "tech_comfort": "high",
+  "constraints": {
+    "budget": "tight — under $1200/mo preferred",
+    "time": "5–10 minute sessions between classes",
+    "accessibility": "mostly mobile; prefers large tap targets"
+  },
+  "voice": "Casual, slightly impatient, emoji-light. Says things like 'wait why is this so nested' and 'just show me the price up front'. Honest about confusion; celebrates when something is obvious."
+}

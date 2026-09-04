@@ -1,0 +1,24 @@
+{
+  "id": "demo-housing",
+  "name": "Housing UX compare (first-job renter)",
+  "persona": "first-job-renter",
+  "maxSteps": 8,
+  "apps": [
+    {
+      "id": "settlr-demo",
+      "name": "Settlr-like housing app",
+      "url": "https://housing-app-delta.vercel.app/"
+    },
+    {
+      "id": "apartments",
+      "name": "Apartments.com",
+      "url": "https://www.apartments.com/"
+    },
+    {
+      "id": "zillow-rentals",
+      "name": "Zillow Rentals",
+      "url": "https://www.zillow.com/apartments/"
+    }
+  ],
+  "jobs": ["land-homepage", "search-or-browse", "open-detail"]
+}

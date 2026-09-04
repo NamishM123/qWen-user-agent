@@ -2,8 +2,8 @@ import "./globals.css";
 import Providers from "@/components/Providers";
 
 export const metadata = {
-  title: "qWen User Agent",
-  description: "Phase 4 browser agent — showcase, concurrency, guardrails",
+  title: "qWen User Agent — persona UX research",
+  description: "Persona-based competitive UX research with a real browser agent",
 };
 
 export default function RootLayout({ children }) {
@@ -19,7 +19,7 @@ export default function RootLayout({ children }) {
                 </a>
                 <nav className="flex gap-3 text-sm text-zinc-600 dark:text-zinc-300">
                   <a href="/" className="hover:underline">
-                    Runs
+                    Research
                   </a>
                   <a href="/login" className="hover:underline">
                     Login

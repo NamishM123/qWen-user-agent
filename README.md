@@ -1,53 +1,45 @@
 # qWen User Agent
 
-Phase 4: concurrency, guardrails, prompt A/B, showcase.
+**Persona-based competitive UX research** — not primarily task automation.
+
+Pick a demographic persona, run the same short jobs on App A vs similar B/C in a real browser (local Qwen), then get evidence-backed feedback and feature suggestions in that persona voice. The browser agent loop is the foundation.
 
 ## Demo in 5 minutes
 
-Install deps, copy env, start a concurrent worker and the web UI, then open localhost:3000.
-Logged-out visitors see the showcase gallery; Dev Auth unlocks task submission.
-Use prompts:compare to group past runs by prompt_version.
-Set a low RATE_LIMIT_TASKS_PER_HOUR to verify HTTP 429 on enqueue.
+1. Install deps, copy .env.example to .env (local Ollama + qwen2.5:7b).
+2. Smoke (headless): use the compare script with compares/demo-smoke.json
+3. Housing demo: use the compare script with compares/demo-housing.json
+4. Regenerate a report: use the feedback script with <sessionId>
+5. Optional UI: start worker + web, open localhost:3000, sign in, use Persona compare.
 
-## Features
+Artifacts: runs/compare/<sessionId>/ (session.json, per-app/job dirs, report.md, report.json).
 
-- Concurrent workers via WORKER_CONCURRENCY and atomic queue claims
-- Guardrails: MAX_STEPS, latency/token/cost budgets, per-user rate limits
-- Prompt version tags on tasks and final.json; prompts/v1.txt and v2.txt
-- Public showcase from showcase/manifest.json
-- docker-compose.yml for optional local multi-service
+## Product idea
 
-## Gaps
+- personas/ — who uses the product (patience, goals, voice)
+- jobs/ — reusable natural-language flows
+- compares/ — App A/B/C URLs + shared job ids
+- src/compare.js — persona x app x job via existing run()
+- src/feedback.js — LLM report from logs only (no invented UI)
 
-- No hosted fleet deploy required for this phase
-- Dockerfile is a minimal sketch
-- Showcase stills are sanitized examples
+## Phase 0-4 still work
 
-## Quick start steps
-
-1. Install root and web packages
-2. Copy .env.example to .env
-3. Start worker with WORKER_CONCURRENCY=2
-4. Start the web UI
-5. Open http://localhost:3000 (showcase is public)
-6. Run prompts:compare for A/B stats
+Concurrency, guardrails, prompt A/B, showcase, queue worker, eval — unchanged. Phase 5 builds on top.
 
 ## Scripts
 
-- worker / worker:pool
-- web / web:install
-- eval
-- prompts:compare
-- start / runner / enqueue / process
-
-## Env (Phase 4)
-
-- WORKER_CONCURRENCY
-- MAX_STEPS, MAX_LATENCY_MS, MAX_TOKENS_PER_TASK, MAX_COST_USD, COST_PER_1K_TOKENS
-- RATE_LIMIT_TASKS_PER_HOUR
-- PROMPT_VERSION (loads prompts/v1.txt or prompts/v2.txt)
+- compare / feedback — persona research pipeline
+- worker / worker:pool / web / eval / prompts:compare / start
 
 ## Layout
 
-- src/agent.js, queue.js, worker.js, qwen.js, guardrails.js, prompts-compare.js
-- prompts/, showcase/, web/, docker-compose.yml, Dockerfile
+- personas/, jobs/, compares/
+- src/agent.js, compare.js, feedback.js, persona.js, qwen.js
+- web/ — research dashboard + compare session viewer
+- runs/compare/ — session outputs
+
+## Gaps
+
+- UI enqueue is fire-and-forget (spawn CLI); watch the session page or CLI logs.
+- Local 7B Qwen may not finish heavy housing sites perfectly — pipeline + coherent report is the bar.
+- Dockerfile remains a minimal sketch.

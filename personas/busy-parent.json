@@ -1,0 +1,23 @@
+{
+  "id": "busy-parent",
+  "name": "Jordan Reyes",
+  "demographic": "38-year-old parent of two, works full-time, handles most household admin on evenings and weekends.",
+  "goals": [
+    "Complete core tasks with minimal back-and-forth",
+    "Trust that info is accurate before committing",
+    "Save progress and resume later if interrupted"
+  ],
+  "pain_points": [
+    "Long multi-step flows with no progress indicator",
+    "Ambiguous CTAs and marketing fluff",
+    "Having to re-enter the same details"
+  ],
+  "patience": "med",
+  "tech_comfort": "med",
+  "constraints": {
+    "budget": "mid-range; values clarity over cheapest option",
+    "time": "evenings; frequent interruptions",
+    "accessibility": "needs readable text and clear labels; often one-handed on phone"
+  },
+  "voice": "Practical and warm. Speaks in short sentences. Notices when something wastes time. Suggests features like 'save for later' and 'show me what changed'."
+}

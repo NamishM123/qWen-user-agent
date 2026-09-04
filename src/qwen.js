@@ -17,7 +17,6 @@ const PROMPTS_DIR = join(dirname(fileURLToPath(import.meta.url)), '..', 'prompts
 /** Tag every run (env PROMPT_VERSION overrides; default v1.1). */
 export const PROMPT_VERSION = process.env.PROMPT_VERSION || 'v1.1';
 
-const DEFAULT_SYSTEM = `
 const client = new OpenAI({
   baseURL: process.env.LLM_BASE_URL || 'http://localhost:11434/v1',
   apiKey: process.env.LLM_API_KEY || 'ollama',
@@ -32,7 +31,7 @@ const WANT_JSON_SCHEMA = process.env.LLM_JSON_SCHEMA !== '0';
 /** Remember if the endpoint rejected json_schema so we don't keep failing every call. */
 let jsonSchemaUnsupported = !WANT_JSON_SCHEMA;
 
-const SYSTEM = `You are a browser-automation agent. On each turn you receive:
+const EMBEDDED_SYSTEM = `You are a browser-automation agent. On each turn you receive:
 - the user's task
 - the current page (url, title)
 - a numbered list of interactable elements with role and accessible name (and value when present)
@@ -116,6 +115,13 @@ export function getSystemPrompt(version = PROMPT_VERSION) {
 
 export function getPromptVersion() {
   return PROMPT_VERSION;
+}
+
+/** Optional persona system addendum (persona-based UX research). */
+export function withPersonaSystem(personaAddendum) {
+  const base = getSystemPrompt();
+  if (!personaAddendum) return base;
+  return `${base}\n\n${personaAddendum}`;
 }
 
 const DONE_CHECK_SYSTEM = `You are a strict QA checker for a browser-automation agent.
@@ -435,13 +441,13 @@ function mergeUsages(usages) {
   };
 }
 
-export async function nextAction({ task, snapshot, history }) {
+export async function nextAction({ task, snapshot, history, personaAddendum }) {
   const includeSchema = jsonSchemaUnsupported || !WANT_JSON_SCHEMA;
   const user = buildUserPrompt({ task, snapshot, history, includeSchema });
   return completeAction({
     snapshot,
     messages: [
-      { role: 'system', content: getSystemPrompt() },
+      { role: 'system', content: withPersonaSystem(personaAddendum) },
       { role: 'user', content: user },
     ],
   });
@@ -450,7 +456,7 @@ export async function nextAction({ task, snapshot, history }) {
 /**
  * One recovery turn with a screenshot via Ollama's OpenAI-compatible multimodal API.
  */
-export async function nextActionWithVision({ task, snapshot, history, screenshotPath }) {
+export async function nextActionWithVision({ task, snapshot, history, screenshotPath, personaAddendum }) {
   const visionNote =
     'VISION RECOVERY TURN: the a11y tree was empty, the model said stuck, or actions kept failing. ' +
     'A screenshot is attached (or its path is noted). Choose ONE next action or done/stuck.';
@@ -483,7 +489,7 @@ export async function nextActionWithVision({ task, snapshot, history, screenshot
 
   for (let attempt = 1; attempt <= 3; attempt++) {
     const messages = [
-      { role: 'system', content: getSystemPrompt() },
+      { role: 'system', content: withPersonaSystem(personaAddendum) },
       { role: 'user', content: userContent },
     ];
     if (attempt > 1) {

@@ -1,0 +1,11 @@
+{
+  "id": "search-or-browse",
+  "name": "Search or browse",
+  "description": "Attempt a basic search or browse path from the landing page.",
+  "steps": [
+    {
+      "goal": "From the current page, find a search box, browse/listings link, or filter control. If a search box exists, type a simple query like 'studio' or 'apartment' (do not submit payment or create an account). If only browse/listings links exist, click one. Stop with done once results, a listings page, or a clear empty-state is visible — cite the URL or a visible heading.",
+      "url": null
+    }
+  ]
+}

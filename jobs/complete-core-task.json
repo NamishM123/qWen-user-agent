@@ -1,0 +1,11 @@
+{
+  "id": "complete-core-task",
+  "name": "Complete core task",
+  "description": "Attempt the site's obvious primary user job.",
+  "steps": [
+    {
+      "goal": "Identify the site's primary user job from the homepage (search, browse, learn more, start). Take up to a few actions toward completing that job without creating an account or entering payment. Stop with done when you reach a meaningful midpoint (results, detail, or confirmation screen), citing URL and visible labels.",
+      "url": null
+    }
+  ]
+}

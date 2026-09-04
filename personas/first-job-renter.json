@@ -1,0 +1,23 @@
+{
+  "id": "first-job-renter",
+  "name": "Alex Okonkwo",
+  "demographic": "23-year-old in first full-time job, relocating for work, searching for a 1-bed or studio near transit.",
+  "goals": [
+    "Browse and filter listings that fit commute + budget",
+    "Open a detail page and understand total cost (rent + fees)",
+    "Feel confident enough to save or inquire"
+  ],
+  "pain_points": [
+    "Unclear fee breakdowns and application costs",
+    "Filters that reset or don't stick",
+    "Dead-end pages with no next step"
+  ],
+  "patience": "med",
+  "tech_comfort": "high",
+  "constraints": {
+    "budget": "entry-level salary; sensitive to deposits and broker fees",
+    "time": "weeknights after work; wants results in under 15 minutes",
+    "accessibility": "desktop + mobile; expects keyboard-friendly forms"
+  },
+  "voice": "Straightforward and slightly nervous about money. Quotes specific UI moments. Asks 'what am I missing?' when something feels incomplete. Suggests competitor-inspired improvements for App A."
+}

@@ -1,0 +1,11 @@
+{
+  "id": "signup-smoke",
+  "name": "Signup smoke",
+  "description": "Locate signup/login entry without completing real registration.",
+  "steps": [
+    {
+      "goal": "Find a Sign up, Register, or Log in control. Click into the signup or login page if it is one click away. Do NOT submit real credentials or create an account. Stop with done once the signup/login form fields are visible, citing field labels you see.",
+      "url": null
+    }
+  ]
+}
