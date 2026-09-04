@@ -9,20 +9,26 @@ export async function launch({ headless = false } = {}) {
 
 // Flatten the accessibility tree into a numbered list of interactable nodes.
 // Each entry gets a stable index the model refers to when picking an action.
+// Uses CDP because page.accessibility.snapshot() was removed in recent Playwright.
+const INTERACTABLE = new Set(['button', 'link', 'textbox', 'combobox', 'checkbox', 'radio', 'menuitem', 'tab']);
+
 export async function snapshot(page) {
-  const tree = await page.accessibility.snapshot({ interestingOnly: true });
+  const client = await page.context().newCDPSession(page);
+  let axNodes;
+  try {
+    ({ nodes: axNodes } = await client.send('Accessibility.getFullAXTree'));
+  } finally {
+    await client.detach().catch(() => {});
+  }
+
   const nodes = [];
-  const walk = (n) => {
-    if (!n) return;
-    const role = n.role;
-    const name = (n.name || '').trim();
-    const interactable = ['button', 'link', 'textbox', 'combobox', 'checkbox', 'radio', 'menuitem', 'tab'];
-    if (interactable.includes(role) && name) {
-      nodes.push({ index: nodes.length, role, name, value: n.value ?? null });
-    }
-    (n.children || []).forEach(walk);
-  };
-  walk(tree);
+  for (const n of axNodes) {
+    const role = n.role?.value;
+    const name = n.name?.value?.trim();
+    if (!role || !name || !INTERACTABLE.has(role)) continue;
+    nodes.push({ index: nodes.length, role, name, value: n.value?.value ?? null });
+  }
+
   return {
     url: page.url(),
     title: await page.title().catch(() => ''),
