@@ -1,3 +1,6 @@
+# Phase 4 local multi-service (Mac Desktop).
+# Ollama on host via host.docker.internal.
+# Prefer host scripts when container runtime is absent.
 services:
   web:
     build:
