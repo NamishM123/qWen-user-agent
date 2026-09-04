@@ -44,6 +44,13 @@ export async function act(page, action) {
   } else if (type === 'type') {
     const target = page.getByRole(action.role, { name: action.name }).first();
     await target.fill(action.text ?? '', { timeout: 5000 });
+    if (action.submit) await target.press('Enter');
+  } else if (type === 'press') {
+    if (action.role && action.name) {
+      await page.getByRole(action.role, { name: action.name }).first().press(action.key, { timeout: 5000 });
+    } else {
+      await page.keyboard.press(action.key);
+    }
   } else if (type === 'navigate') {
     await page.goto(action.url, { waitUntil: 'domcontentloaded' });
   } else if (type === 'wait') {
