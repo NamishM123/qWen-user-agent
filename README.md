@@ -38,6 +38,32 @@ Concurrency, guardrails, prompt A/B, showcase, queue worker, eval — unchanged.
 - web/ — research dashboard + compare session viewer
 - runs/compare/ — session outputs
 
+## Running in a cloud / CI container
+
+The pipeline is designed to run against a **local** Qwen (Ollama) and to drive a
+real browser with outbound internet. A sandboxed CI/cloud container usually has
+neither, so expect these constraints:
+
+- **Browser**: `playwright install` is often blocked. Point Playwright at a
+  pre-installed Chromium with `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` (see
+  `.env.example`) instead of downloading one. `src/browser.js` honors it and is
+  unset by default, so local dev is unchanged.
+- **Web deps**: `web/.npmrc` sets `legacy-peer-deps=true` so `next@16` installs
+  alongside `next-auth@5-beta` (whose peer range is conservative). `npm --prefix
+  web install` then succeeds.
+- **LLM**: there's no local Ollama in most containers. Set `LLM_BASE_URL` /
+  `LLM_API_KEY` / `LLM_MODEL` to a hosted OpenAI-compatible endpoint
+  (e.g. OpenRouter, see `.env.example`) to run the agent end-to-end there.
+- **Outbound browsing**: if the sandbox blocks egress, `page.goto` fails with
+  `net::ERR_TUNNEL_CONNECTION_FAILED` and the task is marked `failed` with that
+  error — the queue, worker, SSE, and web UI still work; only the live browse
+  step needs network.
+
+What works with no LLM and no egress: `npm install`, `npm --prefix web install`,
+`next build`, the SQLite queue, the worker loop (claims tasks, launches the
+headless browser), web auth (dev login), the task/compare APIs, and the SSE
+stream.
+
 ## Gaps
 
 - UI enqueue is fire-and-forget (spawn CLI); watch the session page or CLI logs.

@@ -1,7 +1,10 @@
 import { chromium } from 'playwright';
 
 export async function launch({ headless = false } = {}) {
-  const browser = await chromium.launch({ headless });
+  // Allow pointing at a pre-installed Chromium (e.g. CI / cloud containers where
+  // `playwright install` is blocked). Unset by default, so local dev is unchanged.
+  const executablePath = process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH || undefined;
+  const browser = await chromium.launch({ headless, executablePath });
   const context = await browser.newContext();
   const page = await context.newPage();
   return { browser, context, page };
