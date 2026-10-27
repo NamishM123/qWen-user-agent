@@ -2,6 +2,7 @@ import TaskForm from "@/components/TaskForm";
 import RunList from "@/components/RunList";
 import ShowcaseGallery from "@/components/ShowcaseGallery";
 import CompareForm from "@/components/CompareForm";
+import NewPersonaForm from "@/components/NewPersonaForm";
 import { auth } from "@/lib/auth";
 import Link from "next/link";
 
@@ -42,6 +43,7 @@ export default async function HomePage() {
           Signed in as {session.user.email || session.user.name}. Start a persona compare, or submit a single browser task.
         </p>
       </div>
+      <NewPersonaForm />
       <CompareForm />
       <TaskForm />
       <RunList />
