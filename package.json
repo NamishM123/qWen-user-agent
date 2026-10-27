@@ -17,7 +17,8 @@
     "prompts:compare": "node --env-file=.env src/prompts-compare.js",
     "worker:pool": "WORKER_CONCURRENCY=2 node --env-file=.env src/worker.js",
     "compare": "node --env-file=.env src/compare.js",
-    "feedback": "node --env-file=.env src/feedback.js"
+    "feedback": "node --env-file=.env src/feedback.js",
+    "explore": "node --env-file=.env src/explore.js"
   },
   "dependencies": {
     "openai": "^4.77.0",
